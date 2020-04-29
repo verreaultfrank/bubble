@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Bubble : MonoBehaviour
 {
-
+    public AudioSource audioSource;
+    public AudioClip explosionSound;
     private Rigidbody rb;
     // Use this for initialization
     void Start()
     {
         rb = GetComponent<Rigidbody>();
 
+        //Todo les enfants doivent se disperser en fonction de l'endroit de l'impact entre la munition et la boule parente
         if (this.tag == "Bubble")
         {
             rb.AddForce(new Vector3(150, 0, 150));
@@ -47,6 +49,7 @@ public class Bubble : MonoBehaviour
     }
 
     private void OnCollisionWithBullet(Collision collision) {
+        audioSource.PlayOneShot(explosionSound);
         Destroy(collision.gameObject);
 
         if (this.transform.localScale.x >= 4)

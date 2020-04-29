@@ -25,16 +25,16 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        float moveVertical = Input.GetAxisRaw("Vertical");
 
         moveDirKeyboard = new Vector3(moveHorizontal, 0.0f, moveVertical).normalized;
         moveDirJoyStick = new Vector3(joystick.Horizontal, 0.0f, joystick.Vertical).normalized;
     }
 
     private void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + transform.TransformDirection(moveDirKeyboard) * speed * Time.fixedDeltaTime + transform.TransformDirection(moveDirJoyStick) * speed * Time.fixedDeltaTime);
+    {   
+        rb.MovePosition(rb.position + (transform.TransformDirection(moveDirKeyboard) + transform.TransformDirection(moveDirJoyStick)) * speed * Time.fixedDeltaTime);
     }
 
     private bool isButton1Pressed() {

@@ -9,6 +9,7 @@ TagManager:
   - Bubble
   - Child1
   - Child2
+  - ClosestBubbleIndicator
   layers:
   - Default
   - TransparentFX
