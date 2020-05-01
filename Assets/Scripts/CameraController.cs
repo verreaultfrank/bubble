@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
@@ -9,8 +7,8 @@ public class CameraController : MonoBehaviour {
 
     public GameObject world;
 
-    float r1 = 50.5f;
-    float r2 = 22.0f;
+    readonly float r1 = 50.5f;
+    readonly float r2 = 22.0f;
 
     // Use this for initialization
     void Start () {
