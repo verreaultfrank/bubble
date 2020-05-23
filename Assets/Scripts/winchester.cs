@@ -1,19 +1,24 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 public class winchester : FireGun
 {
     public AudioClip fireAndRechargeSound;
     public AudioClip blanckShotSound;
     public GameObject Bullet;
-    public AudioSource audioSource;
+    private AudioSource audioSource;
     public float Bullet_Forward_Force;
     private float gunLastTrigger;
+    private GameObject world;
 
     void Start() {
+        audioSource = GameObject.FindObjectsOfType(typeof(AudioSource))[0] as AudioSource;
+        world = GameObject.FindGameObjectWithTag("World");
+
         gunLastTrigger = Time.time - 1;
     }
 
-    public override void fire(Vector3 direction) {
+    public override void CmdFire() {
         float fireTime = Time.time;
 
         if (fireTime - gunLastTrigger > 1) {
@@ -26,6 +31,7 @@ public class winchester : FireGun
             GameObject Temporary_Bullet_Handler;
             Temporary_Bullet_Handler = Instantiate(Bullet, transform.position, transform.rotation) as GameObject;
             Temporary_Bullet_Handler.tag = "Bullet";
+            NetworkServer.Spawn(Temporary_Bullet_Handler);
 
             //Sometimes bullets may appear rotated incorrectly due to the way its pivot was set from the original modeling package.
             //This is EASILY corrected here, you might have to rotate it from a different axis and or angle based on your particular mesh.
@@ -36,9 +42,10 @@ public class winchester : FireGun
             Temporary_RigidBody = Temporary_Bullet_Handler.GetComponent<Rigidbody>();
 
             //Tell the bullet to be "pushed" forward by an amount set by Bullet_Forward_Force.
+            Vector3 direction = transform.position - world.transform.position;
             Temporary_RigidBody.AddForce(direction * Bullet_Forward_Force);
 
-            //Basic Clean Up, set the Bullets to self destruct after 7 Seconds, I am being VERY generous here, normally 3 seconds is plenty.
+            //Basic Clean Up, set the Bullets to self destruct after 3 sec.
             Destroy(Temporary_Bullet_Handler, 3.0f);
         } else {
             audioSource.PlayOneShot(blanckShotSound);

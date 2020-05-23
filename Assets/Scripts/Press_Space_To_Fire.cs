@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Press_Space_To_Fire : MonoBehaviour
-{
+public class Press_Space_To_Fire : NetworkBehaviour {
     //Drag in the Bullet Emitter from the Component Inspector.
-    public FireGun bullet_Emitter;
+    private FireGun bulletEmitter;
 
-    public GameObject World;
+    private GameObject World;
 
     protected JoyButton1 joyButton1;
 
@@ -14,19 +14,25 @@ public class Press_Space_To_Fire : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        bulletEmitter = gameObject.GetComponent("winchester") as FireGun;
+
+        World = GameObject.FindGameObjectWithTag("World");
+
         joyButton1 = FindObjectOfType<JoyButton1>();
     }
 
     // Update is called once per frame
     void Update()
-    {
-        float fireTime = Time.time;
-        if (Input.GetKeyDown("space") || (joyButton1 != null && joyButton1.Pressed)){
-            //Unit vector planet vector
-            Vector3 direction = transform.position - World.transform.position;
+    {   if (!isLocalPlayer)
+            return;
 
-            bullet_Emitter.fire(direction);
+        FireBulletEmitter();
+    }
+
+    void FireBulletEmitter() {
+        float fireTime = Time.time;
+        if ((Input.GetKeyDown("space") || (joyButton1 != null && joyButton1.Pressed)) && isLocalPlayer) {
+            bulletEmitter.CmdFire();
         }
-     
     }
 }

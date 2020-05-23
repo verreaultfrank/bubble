@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public abstract class FireGun : MonoBehaviour {
-    public abstract void fire(Vector3 Direction);
+public abstract class FireGun : NetworkBehaviour {
+    [Command]
+    public abstract void CmdFire();
 }

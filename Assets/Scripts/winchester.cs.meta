@@ -3,7 +3,13 @@ guid: 8a570dbd0595b784d9b39c1d40a2a6f4
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - fireAndRechargeSound: {fileID: 8300000, guid: f8b5fe634ef7e5b489a0e85aa3396d22,
+      type: 3}
+  - blanckShotSound: {fileID: 8300000, guid: 25564d6280ce3c44a95f8e19776565ce, type: 3}
+  - Bullet: {fileID: 1631506741607401385, guid: 4dd1e3228668e0b42ad149396bd9f554,
+      type: 3}
+  - audioSource: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

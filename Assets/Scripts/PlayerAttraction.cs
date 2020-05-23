@@ -4,11 +4,13 @@
 public class PlayerAttraction : MonoBehaviour
 {
 
-    public Gravity attractor;
+    private Gravity attractor;
     private Rigidbody rb;
 
     void Start()
     {
+        attractor = GameObject.FindGameObjectWithTag("World").GetComponent("Gravity") as Gravity;
+
         rb = GetComponent<Rigidbody>();
 
         rb.constraints = RigidbodyConstraints.FreezeRotation;
