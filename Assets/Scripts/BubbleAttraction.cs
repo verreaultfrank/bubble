@@ -4,11 +4,13 @@
 public class BubbleAttraction : MonoBehaviour
 {
 
-    public Gravity attractor;
+    private Gravity attractor;
     private Rigidbody rb;
 
     void Start()
     {
+        attractor = GameObject.FindObjectsOfType(typeof(Gravity))[0] as Gravity;
+
         rb = GetComponent<Rigidbody>();
 
         rb.useGravity = false;

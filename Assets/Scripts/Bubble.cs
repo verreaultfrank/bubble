@@ -4,34 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Bubble : NetworkBehaviour
-{
-    public AudioSource audioSource;
+abstract public class Bubble : ServerGameObject {
+    [SyncVar] public float currentSpotlightRange = 0;
+
+    protected AudioSource audioSource;
+    protected Rigidbody rb;
+
     public AudioClip explosionSound;
-    public GameObject grassBrand;
-
-    private GrassMaker grassMaker;
-    private Rigidbody rb;
-
-    [SyncVar] public Vector3 currentPosition = Vector3.zero;
-    [SyncVar] public Quaternion currentRotation = Quaternion.identity;
 
     [ClientRpc]
-    private void RpcSyncPositionWithClients(Vector3 positionToSync) {
-        currentPosition = positionToSync;
+    protected void RpcSyncSpotlightRangeWithClients(float spotlightRangeToSync) {
+        currentSpotlightRange = spotlightRangeToSync;
     }
 
-    [ClientRpc]
-    private void RpcSyncRotationWithClients(Quaternion rotationToSync) {
-        currentRotation = rotationToSync;
-    }
+    protected void Start() {
+        audioSource = GameObject.FindObjectsOfType(typeof(AudioSource))[0] as AudioSource;
 
-    void Start()
-    {
         if (isServer) {
-            grassMaker = new GrassMaker(grassBrand);
+            //grassMaker = new GrassMaker(grassBrand);
 
-            rb = GetComponent<Rigidbody>();
+
+            rb = this.GetComponent<Rigidbody>();
 
             //Todo les enfants doivent se disperser en fonction de l'endroit de l'impact entre la munition et la boule parente
             if (this.tag == "Bubble") {
@@ -42,11 +35,9 @@ public class Bubble : NetworkBehaviour
                 rb.AddForce(new Vector3(150, 100, -150));
             }
         }
-
     }
 
-    void Start(Vector3 push)
-    {
+    protected void Start(Vector3 push) {
         if (isServer) {
             rb = GetComponent<Rigidbody>();
             rb.AddForce(push);
@@ -54,83 +45,31 @@ public class Bubble : NetworkBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    protected void Update() {
         //Update the posisitions for the different clients
         if (isServer) {
             RpcSyncPositionWithClients(this.transform.position);
             RpcSyncRotationWithClients(this.transform.rotation);
+            RpcSyncScaleWithClients(this.transform.localScale);
+            RpcSyncSpotlightRangeWithClients(this.GetComponentInChildren<Light>().range);
         }
     }
 
-    private void LateUpdate() {
+    protected void LateUpdate() {
         if (!isServer) {
             this.transform.position = currentPosition;
             this.transform.rotation = currentRotation;
+            this.transform.localScale = currentScale;
+            this.GetComponentInChildren<Light>().range = currentSpotlightRange;
         }
     }
 
-    [Server]
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Bullet")
-            OnCollisionWithBullet(collision);
 
-
-        if (collision.gameObject.tag == "World")
-            OnCollisionWithWorld(collision);
-    }
-
-    private void GrowGrassUnder() {
-        GameObject child2 = GameObject.Instantiate(this.gameObject);
-    }
-
-    private void OnCollisionWithBullet(Collision collision) {
-        audioSource.PlayOneShot(explosionSound);
-        Destroy(collision.gameObject);
-
-        if (this.transform.localScale.x >= 4)
-        {
-            Vector3 newScale = new Vector3(this.transform.localScale.x / 2, this.transform.localScale.y / 2, this.transform.localScale.z / 2);
-
-            GameObject child1 = GameObject.Instantiate(this.gameObject);
-            child1.layer = findEmptyLayer();
-            Light child1Light = child1.GetComponentInChildren<Light>();
-            child1Light.range = child1Light.range / 2;
-            child1Light.cullingMask = child1Light.cullingMask | (1 << child1.layer);
-            child1.tag = "Child1";
-            child1.transform.localScale = newScale;
-            NetworkServer.Spawn(child1);
-
-            GameObject child2 = GameObject.Instantiate(this.gameObject);
-            child2.layer = findEmptyLayer();
-            Light child2Light = child2.GetComponentInChildren<Light>();
-            child2Light.range = child2Light.range / 2;
-            child2Light.cullingMask = child2Light.cullingMask | (1 << child2.layer);
-            child2.tag = "Child2";
-            child2.transform.localScale = newScale;
-            NetworkServer.Spawn(child2);
-
-        }
-
-        NetworkServer.Destroy(this.rb.gameObject);
-    }
-
-    private void OnCollisionWithWorld(Collision collision)
-    {
-        this.rb.AddRelativeForce(new Vector3(this.rb.velocity.x, 500, this.rb.velocity.z));
-
-        //Pas une bonne idee selon les boys
-        //grassMaker.makeGrass(collision.contacts[0].point, (int)Math.Round(this.transform.localScale.x),  1);
-    }
-
-    private int findEmptyLayer() {
+    protected int findEmptyLayer() {
         GameObject[] goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
         List<int> layerList = new List<int>();
-        for (int i = 0; i < goArray.Length; i++)
-        {
-            if (goArray[i].layer != 0)
-            {
+        for (int i = 0; i < goArray.Length; i++) {
+            if (goArray[i].layer != 0) {
                 layerList.Add(i);
             }
         }
@@ -139,5 +78,4 @@ public class Bubble : NetworkBehaviour
 
         return layerList[layerList.Count - 1] + 1;
     }
-
 }

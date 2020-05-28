@@ -12,6 +12,8 @@ TagManager:
   - ClosestBubbleIndicator
   - AudioSource
   - GrassStrand
+  - RollingBubble
+  - PlayerSword
   layers:
   - Default
   - TransparentFX
@@ -25,8 +27,8 @@ TagManager:
   - World1
   - Bubble1
   - Grass
-  - 
-  - 
+  - PlayerSword
+  - RollingBubble
   - 
   - 
   - 

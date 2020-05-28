@@ -14,7 +14,7 @@ public class Press_Space_To_Fire : NetworkBehaviour {
     // Use this for initialization
     void Start()
     {
-        bulletEmitter = gameObject.GetComponent("winchester") as FireGun;
+        bulletEmitter = gameObject.GetComponent("Winchester") as FireGun;
 
         World = GameObject.FindGameObjectWithTag("World");
 
@@ -23,7 +23,8 @@ public class Press_Space_To_Fire : NetworkBehaviour {
 
     // Update is called once per frame
     void Update()
-    {   if (!isLocalPlayer)
+    {
+        if (!isLocalPlayer)
             return;
 
         FireBulletEmitter();

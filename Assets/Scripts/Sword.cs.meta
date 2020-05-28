@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: 4dcefa560337d1f49a0c5ac3175172cb
+guid: c0e136512f4319042a9746e6b7f1e0e1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - sliceSound: {fileID: 8300000, guid: fa8307334c84e0543bf482929439c811, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

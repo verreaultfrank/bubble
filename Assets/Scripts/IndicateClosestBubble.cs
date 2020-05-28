@@ -28,10 +28,10 @@ public class IndicateClosestBubble : NetworkBehaviour
             return;
 
         float maxDistance = float.MaxValue;
-        Bubble[] lstBubble = FindObjectsOfType<Bubble>();
-        Bubble theChosenOne = null;
+        BouncingBubble[] lstBubble = FindObjectsOfType<BouncingBubble>();
+        BouncingBubble theChosenOne = null;
 
-        foreach (Bubble bubble in lstBubble) {
+        foreach (BouncingBubble bubble in lstBubble) {
             float distToBubble = (player.position - bubble.transform.position).magnitude;
             if (maxDistance > distToBubble) {
                 maxDistance = distToBubble;
