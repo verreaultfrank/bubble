@@ -14,7 +14,7 @@ public class Press_Space_To_Fire : NetworkBehaviour {
     // Use this for initialization
     void Start()
     {
-        bulletEmitter = gameObject.GetComponent("Winchester") as FireGun;
+        bulletEmitter = gameObject.GetComponent("Winchesters") as FireGun;
 
         World = GameObject.FindGameObjectWithTag("World");
 

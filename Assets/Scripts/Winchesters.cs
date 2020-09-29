@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Winchester : FireGun
+public class Winchesters : FireGun
 {
     public AudioClip fireAndRechargeSound;
     public AudioClip blanckShotSound;
