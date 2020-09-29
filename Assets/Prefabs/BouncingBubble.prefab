@@ -157,11 +157,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb67cf287755574da1fd77c1f284373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPosition: {x: 0, y: 0, z: 0}
+  currentRotation: {x: 0, y: 0, z: 0, w: 1}
+  currentScale: {x: 0, y: 0, z: 0}
+  currentSpotlightRange: 0
   explosionSound: {fileID: 8300000, guid: e98c40313af0d304fb74206e4c79ab3b, type: 3}
   RollingBubblePrefab: {fileID: 5901705438326199757, guid: c578e3387fcdfc642ba0ee8f1c961d8c,
     type: 3}
-  currentPosition: {x: 0, y: 0, z: 0}
-  currentRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!114 &826535401589421065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,6 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 826535402876440094}
   - component: {fileID: 826535402876440095}
+  - component: {fileID: 7635152741195977384}
   m_Layer: 10
   m_Name: Spotlight
   m_TagString: Untagged
@@ -215,7 +218,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 0.14901961, g: 0.95686275, b: 0.28627452, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 5
   m_Range: 55
   m_SpotAngle: 33
@@ -243,3 +246,17 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &7635152741195977384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826535402876440093}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ccba2be63207de4aa1c37c8686818da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hackColor: {x: -1, y: -1, z: -1, w: 1}
+  multiplier: 1

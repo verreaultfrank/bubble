@@ -40,9 +40,6 @@ public class PlayerController : NetworkBehaviour {
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
 
-        if (moveHorizontal != 0 || moveVertical != 0)
-            Debug.Log("Mouvement du joy stick");
-
         moveDirKeyboard = new Vector3(moveHorizontal, 0.0f, moveVertical).normalized;
         moveDirJoyStick = new Vector3(joystick.Horizontal, 0.0f, joystick.Vertical).normalized;
     }
