@@ -15,6 +15,7 @@ public class Winchester : FireGun
         audioSource = GameObject.FindObjectsOfType(typeof(AudioSource))[0] as AudioSource;
         world = GameObject.FindGameObjectWithTag("World");
 
+
         gunLastTrigger = Time.time - 1;
     }
 
